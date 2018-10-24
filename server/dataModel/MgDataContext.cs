@@ -6,6 +6,8 @@ namespace dataModel
     {
         public DbSet<Media> Media { get; set; }
         public DbSet<MediaArtist> MediaArtist { get; set; }
+        public DbSet<MediaText> MediaText { get; set; }
+        public DbSet<ParsedText> ParsedText { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,6 +28,18 @@ namespace dataModel
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaId).IsRequired();
+            });
+
+            modelBuilder.Entity<MediaText>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.MediaId).IsRequired();
+            });
+
+            modelBuilder.Entity<ParsedText>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.MediaTextId).IsRequired();
             });
         }
     }

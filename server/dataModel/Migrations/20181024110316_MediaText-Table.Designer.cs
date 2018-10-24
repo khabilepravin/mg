@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181024110316_MediaText-Table")]
+    partial class MediaTextTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,27 +104,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MediaText");
-                });
-
-            modelBuilder.Entity("dataModel.ParsedText", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ArtistId");
-
-                    b.Property<DateTime>("EndTime");
-
-                    b.Property<string>("MediaTextId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("StartTime");
-
-                    b.Property<string>("Text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParsedText");
                 });
 #pragma warning restore 612, 618
         }
