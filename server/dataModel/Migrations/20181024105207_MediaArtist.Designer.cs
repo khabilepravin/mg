@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181024105207_MediaArtist")]
+    partial class MediaArtist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,33 +52,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Media");
-                });
-
-            modelBuilder.Entity("dataModel.MediaArtist", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("ExternalLink");
-
-                    b.Property<string>("Image");
-
-                    b.Property<string>("MediaId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Modified");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("PersonName");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MediaArtist");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,6 +5,7 @@ namespace dataModel
     public class MgDataContext : DbContext
     {
         public DbSet<Media> Media { get; set; }
+        public DbSet<MediaArtist> MediaArtist { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,6 +20,12 @@ namespace dataModel
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<MediaArtist>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.MediaId).IsRequired();
             });
         }
     }
