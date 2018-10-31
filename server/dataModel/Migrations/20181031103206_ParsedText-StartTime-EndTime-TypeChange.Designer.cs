@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181031103206_ParsedText-StartTime-EndTime-TypeChange")]
+    partial class ParsedTextStartTimeEndTimeTypeChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,14 +86,14 @@ namespace dataModel.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<TimeSpan>("Created");
 
                     b.Property<string>("Language");
 
                     b.Property<string>("MediaId")
                         .IsRequired();
 
-                    b.Property<DateTime>("Modified");
+                    b.Property<TimeSpan>("Modified");
 
                     b.Property<string>("Status");
 
@@ -111,12 +113,12 @@ namespace dataModel.Migrations
 
                     b.Property<string>("ArtistId");
 
-                    b.Property<TimeSpan>("EndTime");
+                    b.Property<DateTime>("EndTime");
 
                     b.Property<string>("MediaTextId")
                         .IsRequired();
 
-                    b.Property<TimeSpan>("StartTime");
+                    b.Property<DateTime>("StartTime");
 
                     b.Property<string>("Text");
 
