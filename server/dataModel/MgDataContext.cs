@@ -4,6 +4,11 @@ namespace dataModel
 {
     public class MgDataContext : DbContext
     {
+        public MgDataContext(DbContextOptions<MgDataContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<Media> Media { get; set; }
         public DbSet<MediaArtist> MediaArtist { get; set; }
         public DbSet<MediaText> MediaText { get; set; }
@@ -11,7 +16,12 @@ namespace dataModel
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
+
+                this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
