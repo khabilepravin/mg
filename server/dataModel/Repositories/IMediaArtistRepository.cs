@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace dataModel.Repositiries
+namespace dataModel.Repositories
 {
-    class MediaArtistRepository
+    interface IMediaArtistRepository
     {
     }
 }
