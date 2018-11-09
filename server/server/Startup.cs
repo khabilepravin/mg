@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using dataModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,9 @@ namespace server
             services.AddSingleton<IConfiguration>(Configuration);
 
             var containerBuilder = new ContainerBuilder();
+
+            DataBootstrapper.Bootstrap(containerBuilder);
+
             this.Container = containerBuilder.Build();
             return new AutofacServiceProvider(this.Container);
         }

@@ -2,8 +2,9 @@
 
 namespace dataModel.Repositories
 {
-    interface IMediaRepository
+    public interface IMediaRepository
     {
-        Task<string> AddMedia();
+        Task<Media> AddMedia(Media media);
+        Task<Media> UpdateMedia(Media media);
     }
 }
