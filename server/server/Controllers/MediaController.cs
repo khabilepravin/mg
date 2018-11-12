@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class MediaController : ControllerBase
     {
         private readonly IMediaRepository _mediaRepository;

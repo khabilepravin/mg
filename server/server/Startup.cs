@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 
 namespace server
@@ -24,14 +25,23 @@ namespace server
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddApiVersioning();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "MovieGrep API", Version = "v1" });
+            });
 
             services.AddSingleton<IConfiguration>(Configuration);
 
-            var containerBuilder = new ContainerBuilder();
 
+
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.Populate(services);
             DataBootstrapper.Bootstrap(containerBuilder);
 
             this.Container = containerBuilder.Build();
+            
+
             return new AutofacServiceProvider(this.Container);
         }
 
@@ -46,6 +56,12 @@ namespace server
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MG API v1");
+                c.DocumentTitle = "MG API";
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
