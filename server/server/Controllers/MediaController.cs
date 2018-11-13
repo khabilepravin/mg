@@ -1,6 +1,8 @@
 ﻿using dataModel;
 using dataModel.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -67,7 +69,8 @@ namespace server.Controllers
 
         // POST: api/Media
         [HttpPost]
-        public async Task<IActionResult> PostMedia([FromBody] Media media)
+        public async Task<IActionResult> PostMedia([ModelBinder(BinderType = typeof(JsonModelBinder))] Media media,
+                IFormFile file)
         {
             if (!ModelState.IsValid)
             {
