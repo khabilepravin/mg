@@ -7,14 +7,18 @@ namespace dataModel.Repositories
     {
         public MediaRepository(IDbContextFactory dbContextFactory) : base(dbContextFactory) {}
 
-        public async Task<Media> AddMedia(Media media)
+        public async Task<Media> AddMedia(Media media, MediaText mediaText)
         {
             using(var db = base._dbContextFactory.Create())
             {
                 media.Created = DateTime.UtcNow;
                 await db.Media.AddAsync(media);
-                await db.SaveChangesAsync();
+                
 
+                mediaText.MediaId = media.Id;
+                await db.MediaText.AddAsync(mediaText);
+
+                await db.SaveChangesAsync();
                 return media;
             }
         }

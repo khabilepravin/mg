@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace server.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [ApiController]
-    [ApiVersion("1.0")]
-    public class MediaController : ControllerBase
+    public class MediaController : BaseController
     {
         private readonly IMediaRepository _mediaRepository;
 
@@ -29,7 +27,7 @@ namespace server.Controllers
 
         // GET: api/Media/5
         [HttpGet("{id}")]
-        public  IActionResult GetMedia([FromRoute] string id)
+        public IActionResult GetMedia([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +75,14 @@ namespace server.Controllers
                 return BadRequest(ModelState);
             }
 
-           var newMedia = await _mediaRepository.AddMedia(media);
+            var mediaText = new MediaText();
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                mediaText.Text = await reader.ReadToEndAsync();
+            }
+
+            var newMedia = await _mediaRepository.AddMedia(media, mediaText);
 
             return Ok(newMedia);
         }
