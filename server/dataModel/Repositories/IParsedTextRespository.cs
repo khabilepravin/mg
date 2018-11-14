@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace dataModel.Repositories
 {
-    interface IParsedTextRespository
+    public interface IParsedTextRespository
     {
+        Task<bool> AddParsedText(IEnumerable<ParsedText> parsedText);
     }
 }

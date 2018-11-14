@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace mgparser
 {
     public class Parser : IParser
     {
-        public static readonly string RGXSQUAREBRACKET = @"\[[^\]]*\]";
-        public static readonly string RGXROUNDBRACKET = @"\([^)]+\)";
-        public static readonly string RGXCURLYBRACKET = @"\{[^}]*?\}";
+        public readonly string RGXSQUAREBRACKET = @"\[[^\]]*\]";
+        public readonly string RGXROUNDBRACKET = @"\([^)]+\)";
+        public readonly string RGXCURLYBRACKET = @"\{[^}]*?\}";
 
         //public static List<IndexableEntity> Parse(Title title, TitleSubtitle titleSubtitle)
         //{
@@ -113,14 +114,14 @@ namespace mgparser
         //    return inputString;
         //}
 
-        public IEnumerable<ParsedText> Parse(MediaText mediaText)
+        private IEnumerable<ParsedText> Parse(MediaText mediaText)
         {
             string[] theWholeSubtitleFileTextLines = mediaText.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             List<ParsedText> parsedSubtitles = null;
             ParsedText currentParsedSubtitle = null;
             TimeSpan startTime = TimeSpan.MinValue;
             TimeSpan endTime = TimeSpan.MinValue;
-            bool isPreviousCaptureReadyToInsert = false;
+            //bool isPreviousCaptureReadyToInsert = false;
 
             for (int i = 0; i < theWholeSubtitleFileTextLines.Length; i++)
             {
@@ -168,7 +169,7 @@ namespace mgparser
 
                         if ((thisLine.EndsWith(".") || thisLine.EndsWith("?")) && !thisLine.EndsWith("...")) // the last part is just to make sure the statement is not continued
                         {
-                            isPreviousCaptureReadyToInsert = true;
+                            //isPreviousCaptureReadyToInsert = true;
 
                             currentParsedSubtitle.EndTime = endTime;
                             if (parsedSubtitles == null) { parsedSubtitles = new List<ParsedText>(); }
@@ -180,7 +181,7 @@ namespace mgparser
                         }
                         else
                         {
-                            isPreviousCaptureReadyToInsert = false;
+                           // isPreviousCaptureReadyToInsert = false;
                         }
                     }
                 }
@@ -215,5 +216,15 @@ namespace mgparser
             }
             return inputString;
         }
+
+        //public Task<bool> ParseAndInsert(MediaText mediaText)
+        //{
+        //    // var parsedText = Parse(mediaText);
+
+        //    return true;
+
+
+        //}
+
     }
 }

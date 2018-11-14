@@ -1,10 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace dataModel.Repositories
 {
-    class ParsedTextRespository
+    public class ParsedTextRespository : BaseRepository, IParsedTextRespository
     {
+        public ParsedTextRespository(IDbContextFactory dbContextFactory) : base(dbContextFactory) { }
+
+        public async Task<bool> AddParsedText(IEnumerable<ParsedText> parsedText)
+        {
+            using (var db = base._dbContextFactory.Create())
+            {
+                foreach(var parsedT in parsedText)
+                {
+                    await db.AddAsync(parsedT);
+                }
+
+                await db.SaveChangesAsync();
+                return true;
+            }
+
+        }
     }
 }

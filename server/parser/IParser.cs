@@ -1,10 +1,10 @@
 ﻿using dataModel;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace mgparser
 {
-    interface IParser
+    public interface IParser
     {
-        IEnumerable<ParsedText> Parse(MediaText mediaText);
+        //Task<bool> ParseAndInsert(MediaText mediaText);
     }
 }

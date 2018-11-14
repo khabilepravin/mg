@@ -18,6 +18,8 @@ namespace dataModel.Repositories
                 mediaText.MediaId = media.Id;
                 await db.MediaText.AddAsync(mediaText);
 
+                //var parsedText = parser.
+
                 await db.SaveChangesAsync();
                 return media;
             }
