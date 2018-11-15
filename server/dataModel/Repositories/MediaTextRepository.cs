@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace dataModel.Repositories
 {
-    class MediaTextRepository
+    public class MediaTextRepository : BaseRepository, IMediaTextRespository
     {
+        public MediaTextRepository(IDbContextFactory dbContextFactory) : base(dbContextFactory) { }
+        public async Task<MediaText> AddAsync(MediaText mediaText)
+        {
+            using (var db = base._dbContextFactory.Create())
+            {
+                await db.MediaText.AddAsync(mediaText);
+                await db.SaveChangesAsync();
+                return mediaText;
+            }
+        }
     }
 }

@@ -5,6 +5,6 @@ namespace dataModel.Repositories
 {
     public interface IParsedTextRespository
     {
-        Task<bool> AddParsedText(IEnumerable<ParsedText> parsedText);
+        Task<bool> AddManyAsync(IEnumerable<ParsedText> parsedText);
     }
 }

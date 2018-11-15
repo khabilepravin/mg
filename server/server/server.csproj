@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\bl\bl.csproj" />
     <ProjectReference Include="..\dataModel\dataModel.csproj" />
   </ItemGroup>
 

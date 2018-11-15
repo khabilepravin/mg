@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace mgparser
 {
@@ -114,7 +113,7 @@ namespace mgparser
         //    return inputString;
         //}
 
-        private IEnumerable<ParsedText> Parse(MediaText mediaText)
+        public IEnumerable<ParsedText> Parse(MediaText mediaText)
         {
             string[] theWholeSubtitleFileTextLines = mediaText.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             List<ParsedText> parsedSubtitles = null;

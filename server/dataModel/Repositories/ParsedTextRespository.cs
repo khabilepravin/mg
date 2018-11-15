@@ -7,7 +7,7 @@ namespace dataModel.Repositories
     {
         public ParsedTextRespository(IDbContextFactory dbContextFactory) : base(dbContextFactory) { }
 
-        public async Task<bool> AddParsedText(IEnumerable<ParsedText> parsedText)
+        public async Task<bool> AddManyAsync(IEnumerable<ParsedText> parsedText)
         {
             using (var db = base._dbContextFactory.Create())
             {

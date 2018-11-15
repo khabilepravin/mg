@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace dataModel.Repositories
 {
-    interface IMediaTextRespository
+    public interface IMediaTextRespository
     {
+        Task<MediaText> AddAsync(MediaText mediaText);
     }
 }

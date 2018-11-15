@@ -4,7 +4,7 @@ namespace dataModel.Repositories
 {
     public interface IMediaRepository
     {
-        Task<Media> AddMedia(Media media, MediaText mediaText);
-        Task<Media> UpdateMedia(Media media);
+        Task<Media> AddAsync(Media media);
+        Task<Media> UpdateAsync(Media media);
     }
 }

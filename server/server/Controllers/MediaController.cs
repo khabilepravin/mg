@@ -1,4 +1,5 @@
-﻿using dataModel;
+﻿using bl;
+using dataModel;
 using dataModel.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,11 @@ namespace server.Controllers
 {
     public class MediaController : BaseController
     {
-        private readonly IMediaRepository _mediaRepository;
+        private readonly IMediaManager _mediaManager;
 
-        public MediaController(IMediaRepository mediaRepository)
+        public MediaController(IMediaManager mediaManager)
         {
-            _mediaRepository = mediaRepository;
+            _mediaManager = mediaManager;
         }
 
         // GET: api/Media
@@ -60,7 +61,7 @@ namespace server.Controllers
 
             //_context.Entry(media).State = EntityState.Modified;
 
-            await _mediaRepository.UpdateMedia(media);
+            //await _mediaManager.ParseAndAddText()
 
             return NoContent();
         }
@@ -82,7 +83,7 @@ namespace server.Controllers
                 mediaText.Text = await reader.ReadToEndAsync();
             }
 
-            var newMedia = await _mediaRepository.AddMedia(media, mediaText);
+            var newMedia = await _mediaManager.AddMediaParsedAsync(media, mediaText);
 
             return Ok(newMedia);
         }
