@@ -9,6 +9,8 @@ namespace dataModel
         {
             containerBuilder.RegisterType<DbContextFactory>().As<IDbContextFactory>().SingleInstance();
             containerBuilder.RegisterType<MediaRepository>().As<IMediaRepository>().SingleInstance();
+            containerBuilder.RegisterType<MediaTextRepository>().As<IMediaTextRespository>().SingleInstance();
+            containerBuilder.RegisterType<ParsedTextRespository>().As<IParsedTextRespository>().SingleInstance();
         }
     }
 }
