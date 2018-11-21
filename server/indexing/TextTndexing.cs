@@ -1,87 +1,149 @@
 ﻿using dataModel;
-using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Core;
+using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers.Classic;
+using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace indexing
 {
-    public class TextIndexing : ITextIndexing
+    public static class TextIndexing
     {
-        private Analyzer analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
-        private Directory luceneIndexDirectory;
-        //        private IndexWriter writer;
-        private DirectoryReader Reader;
-        private string indexPath = @"c:\users\pravin.khabile\luceneindex";
+        //public static string _luceneDir =
+        //    Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene_index");
+        //PATH FOR LOCAL TESTING
+        //Path.Combine(@"C:\Personal\Projects\moviegrepRevival\moviregrepRevival\Source\humanInterface\ui", "lucene_index");
+        static string _luceneDir = @"c:\users\pravin.khabile\luceneindexes-3";
 
-        public TextIndexing()
+        private static FSDirectory _directoryTemp;
+        private static FSDirectory _directory
         {
-            InialiseLucene();
-        }
-
-        private void InialiseLucene()
-        {
-            if (System.IO.Directory.Exists(indexPath))
+            get
             {
-                System.IO.Directory.Delete(indexPath, true);
+                if (_directoryTemp == null) _directoryTemp = FSDirectory.Open(new DirectoryInfo(_luceneDir));
+                if (IndexWriter.IsLocked(_directoryTemp)) IndexWriter.Unlock(_directoryTemp);
+                // var lockFilePath = Path.Combine(_luceneDir, "write.lock");
+                //if (File.Exists(lockFilePath)) File.Delete(lockFilePath);
+                return _directoryTemp;
             }
-
-            luceneIndexDirectory = FSDirectory.Open(indexPath);
-
-
-
         }
-       
-        public bool IndexText(IEnumerable<ParsedText> dataToIndex)
-        {
-            IndexWriterConfig config = new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer);
 
-            using (var writer = new IndexWriter(luceneIndexDirectory, config))
+        public static void AddUpdateLuceneIndex(IEnumerable<ParsedText> sampleDatas)
+        {
+            // init lucene
+            var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            using (var writer = new IndexWriter(_directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                foreach (var parsedText in dataToIndex)
+                // add data to lucene search index (replaces older entries if any)
+                foreach (var sampleData in sampleDatas) _addToLuceneIndex(sampleData, writer);
+
+                // close handles
+                analyzer.Close();
+                writer.Dispose();
+            }
+        }
+
+        private static void _addToLuceneIndex(ParsedText sampleData, IndexWriter writer)
+        {
+            // remove older index entry
+            //var searchQuery = new TermQuery(new Term("Id", sampleData.Id.ToString()));
+            //writer.DeleteDocuments(searchQuery);
+
+            // add new index entry
+            var doc = new Document();
+
+            // add lucene fields mapped to db fields
+            doc.Add(new Field("Id", sampleData.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("Text", sampleData.Text, Field.Store.NO, Field.Index.ANALYZED));
+
+
+            // add entry to index
+            writer.AddDocument(doc);
+        }
+
+        public static IEnumerable<ParsedText> Search(string searchQuery, string searchField = null)
+        {
+            if (string.IsNullOrWhiteSpace(searchQuery.Replace("*", string.Empty).Replace("?", string.Empty))) return new List<ParsedText>();
+
+            // set up lucene searcher
+            using (var searcher = new IndexSearcher(_directory, false))
+            {
+                var hits_limit = 1000;
+                var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+
+                // search by single field
+                if (!string.IsNullOrWhiteSpace(searchField))
                 {
-                    Document doc = new Document();
-                    doc.Add(new StringField("LineNumber", parsedText.Id, Field.Store.YES));
-                    doc.Add(new StringField("LineText", parsedText.Text, Field.Store.YES));
+                    var sort = new Sort(new SortField[] {
+                                            SortField.FIELD_SCORE,
+                                            new SortField(searchField, SortField.STRING)
+                                        });
+                    TopFieldCollector topField = TopFieldCollector.Create(sort, hits_limit, true, true, true, true);
 
-                    writer.AddDocument(doc.Fields);
+
+                    var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
+                    var query = parseQuery(searchQuery, parser);
+                    //var hits = searcher.Search(query, hits_limit).ScoreDocs;
+                    searcher.Search(query, topField);
+                    var hits = topField.TopDocs().ScoreDocs;
+                    var results = _mapLuceneToDataList(hits, searcher);
+                    analyzer.Close();
+                    searcher.Dispose();
+                    return results;
                 }
-
-                Reader = writer.GetReader(true);
+                // search by multiple fields (ordered by RELEVANCE)
+                else
+                {
+                    var parser = new MultiFieldQueryParser
+                        (Lucene.Net.Util.Version.LUCENE_30, new[] { "Id", "Text" }, analyzer);
+                    var query = parseQuery(searchQuery, parser);
+                    var hits = searcher.Search(query, null, hits_limit, Sort.INDEXORDER).ScoreDocs;
+                    var results = _mapLuceneToDataList(hits, searcher);
+                    analyzer.Close();
+                    searcher.Dispose();
+                    return results;
+                }
             }
-
-            return true;
         }
 
-        public IEnumerable<ParsedText> SearchText(string searchString)
+        private static Query parseQuery(string searchQuery, QueryParser parser)
         {
-            IndexSearcher searcher = new IndexSearcher(Reader);
-            QueryParser parser = new QueryParser(Lucene.Net.Util.LuceneVersion.LUCENE_48, "Text", analyzer);
-
-            Query query = parser.Parse(searchString);
-            Sort sort = new Sort(new SortField("Text", SortFieldType.STRING));
-            var searchedDocs = searcher.Search(query, int.MaxValue, sort);
-            List<ParsedText> results = new List<ParsedText>();
-            ParsedText parsedText = null;
-            
-
-            for (int i = 0; i < searchedDocs.TotalHits; i++)
+            Query query;
+            try
             {
-                parsedText = new ParsedText();
-                var doc = searchedDocs.ScoreDocs[i];// hitsFound.Doc(i);
-                //parsedText.Id = int.Parse(doc. .Get("id"));
-                //sampleDataFileRow.LineText = doc.Get("LineText");
-                //float score = hitsFound.Score(i);
-                //sampleDataFileRow.Score = score;
-                //results.Add(sampleDataFileRow);
+                query = parser.Parse(searchQuery.Trim());
             }
+            catch (ParseException)
+            {
+                query = parser.Parse(QueryParser.Escape(searchQuery.Trim()));
+            }
+            return query;
+        }
 
-            //return results.OrderByDescending(x => x.Score).ToList();
-            return null;
+        //private static IEnumerable<ParsedText> mapSearchHitsToParsedText(IEnumerable<ScoreDoc> docs)
+        //{
+
+        //    return null;
+        //}
+
+        private static IEnumerable<ParsedText> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
+        {
+            // v 2.9.4: use 'hit.doc'
+            // v 3.0.3: use 'hit.Doc'
+            return hits.Select(hit => _mapLuceneDocumentToData(searcher.Doc(hit.Doc))).ToList();
+        }
+        private static ParsedText _mapLuceneDocumentToData(Document doc)
+        {
+            return new ParsedText
+            {
+                Id = Convert.ToString(doc.Get("Id")),
+                Text = Convert.ToString(doc.Get("Text"))
+            };
         }
     }
 }
