@@ -12,16 +12,16 @@ using System.Linq;
 
 namespace indexing
 {
-    public static class TextIndexing
+    public class TextIndexing : ITextIndexing
     {
-        //public static string _luceneDir =
+        //public  string _luceneDir =
         //    Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene_index");
         //PATH FOR LOCAL TESTING
         //Path.Combine(@"C:\Personal\Projects\moviegrepRevival\moviregrepRevival\Source\humanInterface\ui", "lucene_index");
-        static string _luceneDir = @"c:\users\pravin.khabile\luceneindexes-3";
+         string _luceneDir = @"c:\users\pravin.khabile\luceneindexes-3";
 
-        private static FSDirectory _directoryTemp;
-        private static FSDirectory _directory
+        private  FSDirectory _directoryTemp;
+        private  FSDirectory _directory
         {
             get
             {
@@ -33,7 +33,7 @@ namespace indexing
             }
         }
 
-        public static void AddUpdateLuceneIndex(IEnumerable<ParsedText> sampleDatas)
+        public  void AddUpdateLuceneIndex(IEnumerable<ParsedText> sampleDatas)
         {
             // init lucene
             var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
@@ -48,7 +48,7 @@ namespace indexing
             }
         }
 
-        private static void _addToLuceneIndex(ParsedText sampleData, IndexWriter writer)
+        private  void _addToLuceneIndex(ParsedText sampleData, IndexWriter writer)
         {
             // remove older index entry
             //var searchQuery = new TermQuery(new Term("Id", sampleData.Id.ToString()));
@@ -66,7 +66,7 @@ namespace indexing
             writer.AddDocument(doc);
         }
 
-        public static IEnumerable<ParsedText> Search(string searchQuery, string searchField = null)
+        public  IEnumerable<ParsedText> Search(string searchQuery, string searchField = null)
         {
             if (string.IsNullOrWhiteSpace(searchQuery.Replace("*", string.Empty).Replace("?", string.Empty))) return new List<ParsedText>();
 
@@ -111,7 +111,7 @@ namespace indexing
             }
         }
 
-        private static Query parseQuery(string searchQuery, QueryParser parser)
+        private  Query parseQuery(string searchQuery, QueryParser parser)
         {
             Query query;
             try
@@ -124,20 +124,13 @@ namespace indexing
             }
             return query;
         }
-
-        //private static IEnumerable<ParsedText> mapSearchHitsToParsedText(IEnumerable<ScoreDoc> docs)
-        //{
-
-        //    return null;
-        //}
-
-        private static IEnumerable<ParsedText> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
-        {
-            // v 2.9.4: use 'hit.doc'
-            // v 3.0.3: use 'hit.Doc'
+        
+        private  IEnumerable<ParsedText> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
+        {   
             return hits.Select(hit => _mapLuceneDocumentToData(searcher.Doc(hit.Doc))).ToList();
         }
-        private static ParsedText _mapLuceneDocumentToData(Document doc)
+
+        private  ParsedText _mapLuceneDocumentToData(Document doc)
         {
             return new ParsedText
             {
