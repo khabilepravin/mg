@@ -16,11 +16,5 @@ namespace bl
         {
             _textIndexing.AddUpdateLuceneIndex(dataToIndex);
         }
-
-        public IEnumerable<ParsedText> Search(string searchQuery, string searchField = null)
-        {
-            return _textIndexing.Search(searchQuery, searchField);
-        }
-
     }
 }

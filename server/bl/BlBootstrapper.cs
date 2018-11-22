@@ -13,6 +13,7 @@ namespace bl
             IndexingBootstrapper.Bootstrap(containerBuilder);
             containerBuilder.RegisterType<MediaManager>().As<IMediaManager>();
             containerBuilder.RegisterType<IndexManager>().As<IIndexManager>();
+            containerBuilder.RegisterType<Search>().As<ISearch>();
         }
     }
 }
