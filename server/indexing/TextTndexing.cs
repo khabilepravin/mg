@@ -1,4 +1,5 @@
 ﻿using dataModel;
+using dataModel.Repositories;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -14,6 +15,13 @@ namespace indexing
 {
     public class TextIndexing : ITextIndexing
     {
+
+        private IParsedTextRespository _parsedTextRespository;
+        public TextIndexing(IParsedTextRespository parsedTextRespository)
+        {
+            _parsedTextRespository = parsedTextRespository;
+        }
+
         //public  string _luceneDir =
         //    Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene_index");
         //PATH FOR LOCAL TESTING
@@ -132,10 +140,11 @@ namespace indexing
 
         private  ParsedText _mapLuceneDocumentToData(Document doc)
         {
+            var parsedText = _parsedTextRespository.GetParsedText(doc.Get("Id")).Result;
             return new ParsedText
             {
-                Id = Convert.ToString(doc.Get("Id")),
-                Text = Convert.ToString(doc.Get("Text"))
+                Id = doc.Get("Id"),
+                Text = parsedText.Text
             };
         }
     }

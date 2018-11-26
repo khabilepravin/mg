@@ -20,16 +20,16 @@ namespace test
             itemsToIndex.Add(new ParsedText { Text = "Not on the rug man", Id = "10002" });
             itemsToIndex.Add(new ParsedText { Text = "I will make him an offer he can't refuse", Id = "10003" });
             //TextIndexing.IndexText(itemsToIndex);
-            TextIndexing textIndexing = new TextIndexing();
-            textIndexing.AddUpdateLuceneIndex(itemsToIndex);
+            //TextIndexing textIndexing = new TextIndexing();
+            //textIndexing.AddUpdateLuceneIndex(itemsToIndex);
             //IndexMiner.Search("rug");
         }
 
         [Fact]
         public void SearchTest()
         {
-            TextIndexing textIndexing = new TextIndexing();
-            textIndexing.Search("cool");
+            //TextIndexing textIndexing = new TextIndexing();
+            //textIndexing.Search("cool");
         }
        
     }

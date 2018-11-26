@@ -29,5 +29,13 @@ namespace dataModel.Repositories
                 return media;
             }
         }
+
+        public async Task<Media> GetMedia(string id)
+        {
+            using (var db = base._dbContextFactory.Create())
+            {
+                return await db.Media.FindAsync(id);
+            }
+        }
     }
 }

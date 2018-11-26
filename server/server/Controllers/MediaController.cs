@@ -18,13 +18,6 @@ namespace server.Controllers
             _mediaManager = mediaManager;
         }
 
-        // GET: api/Media
-        [HttpGet]
-        public IEnumerable<Media> GetMedia()
-        {
-            return null;// _context.Media;
-        }
-
         // POST: api/Media
         [HttpPost]
         public async Task<IActionResult> PostMedia([ModelBinder(BinderType = typeof(JsonModelBinder))] Media media,
