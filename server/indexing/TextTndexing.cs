@@ -16,9 +16,11 @@ namespace indexing
     public class TextIndexing : ITextIndexing
     {
 
+        string _luceneDir;
         private IParsedTextRespository _parsedTextRespository;
         public TextIndexing(IParsedTextRespository parsedTextRespository)
         {
+            _luceneDir = AppDomain.CurrentDomain.BaseDirectory + "luceneindex";
             _parsedTextRespository = parsedTextRespository;
         }
 
@@ -26,7 +28,7 @@ namespace indexing
         //    Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene_index");
         //PATH FOR LOCAL TESTING
         //Path.Combine(@"C:\Personal\Projects\moviegrepRevival\moviregrepRevival\Source\humanInterface\ui", "lucene_index");
-         string _luceneDir = @"c:\users\pravin.khabile\luceneindexes-3";
+         //string _luceneDir = @"c:\users\pravin.khabile\luceneindexes-3";
 
         private  FSDirectory _directoryTemp;
         private  FSDirectory _directory
