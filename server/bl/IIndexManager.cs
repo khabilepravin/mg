@@ -1,11 +1,10 @@
 ﻿using dataModel;
 using System.Collections.Generic;
 
-namespace indexing
+namespace bl
 {
-    public interface ITextIndexing
+    public interface IIndexManager
     {
         void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToIndex);
-        IEnumerable<ParsedText> Search(string searchQuery, string searchField = null);
     }
 }

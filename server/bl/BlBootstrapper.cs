@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using indexing;
 using mgparser;
 
 namespace bl
@@ -9,7 +10,10 @@ namespace bl
         {
             dataModel.DataBootstrapper.Bootstrap(containerBuilder);
             ParserBootstrapper.Bootstrap(containerBuilder);
+            IndexingBootstrapper.Bootstrap(containerBuilder);
             containerBuilder.RegisterType<MediaManager>().As<IMediaManager>();
+            containerBuilder.RegisterType<IndexManager>().As<IIndexManager>();
+            containerBuilder.RegisterType<Search>().As<ISearch>();
         }
     }
 }

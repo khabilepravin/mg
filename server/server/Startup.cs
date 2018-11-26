@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using bl;
-using dataModel;
+using indexing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -46,9 +46,8 @@ namespace server
             containerBuilder.Populate(services);
            // DataBootstrapper.Bootstrap(containerBuilder);
             BlBootstrapper.Bootstrap(containerBuilder);
-
-            this.Container = containerBuilder.Build();
             
+            this.Container = containerBuilder.Build();
 
             return new AutofacServiceProvider(this.Container);
         }

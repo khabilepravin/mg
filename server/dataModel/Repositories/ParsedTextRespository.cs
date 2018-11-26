@@ -21,5 +21,13 @@ namespace dataModel.Repositories
             }
 
         }
+
+        public async Task<ParsedText> GetParsedText(string id)
+        {
+            using(var db = base._dbContextFactory.Create())
+            {
+               return await db.ParsedText.FindAsync(id);
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dataModel\dataModel.csproj" />
+    <ProjectReference Include="..\indexing\indexing.csproj" />
     <ProjectReference Include="..\parser\parser.csproj" />
   </ItemGroup>
 
