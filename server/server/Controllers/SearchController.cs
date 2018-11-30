@@ -1,7 +1,6 @@
 ﻿using bl;
-using dataModel;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using server.ResponseTypes;
 
 namespace server.Controllers
 {
@@ -15,8 +14,15 @@ namespace server.Controllers
 
         [HttpGet("{searchText}")]
         public IActionResult Search([FromRoute]string searchText)
-        {   
-            return Ok(_search.SearchText(searchText));
+        {
+            var searchResults = _search.SearchText(searchText);
+
+            if(searchResults != null)
+            {
+                return NotFound($"No results found for the \"{searchText}\".");
+            }
+
+            return Ok(new ApiOkResponse(searchResults));
         }
     }
 }
