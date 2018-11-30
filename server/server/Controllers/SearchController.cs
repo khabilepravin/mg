@@ -15,7 +15,7 @@ namespace server.Controllers
 
         [HttpGet("{searchText}")]
         public IActionResult Search([FromRoute]string searchText)
-        {
+        {   
             return Ok(_search.SearchText(searchText));
         }
     }
