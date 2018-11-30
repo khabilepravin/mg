@@ -17,7 +17,7 @@ namespace server.Controllers
         {
             var searchResults = _search.SearchText(searchText);
 
-            if(searchResults != null)
+            if(searchResults == null)
             {
                 return NotFound($"No results found for the \"{searchText}\".");
             }
