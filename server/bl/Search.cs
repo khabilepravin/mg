@@ -12,9 +12,9 @@ namespace bl
             _textIndexing = textIndexing;
         }
 
-        public IEnumerable<ParsedText> SearchText(string searchQuery, string searchField = null)
+        public IEnumerable<ParsedText> SearchText(string searchQuery, string searchField = null, string titleId=null)
         {
-            return _textIndexing.Search(searchQuery, searchField);
+            return _textIndexing.Search(searchQuery, searchField, titleId);
         }
     }
 }

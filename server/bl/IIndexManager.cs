@@ -5,6 +5,6 @@ namespace bl
 {
     public interface IIndexManager
     {
-        void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToIndex);
+        void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToIndex, string titleId);
     }
 }

@@ -13,7 +13,7 @@ namespace server.Controllers
         }
 
         [HttpGet("{searchText}")]
-        public IActionResult Search([FromRoute]string searchText)
+        public IActionResult Search([FromRoute]string searchText, string titleId)
         {
             var searchResults = _search.SearchText(searchText);
 

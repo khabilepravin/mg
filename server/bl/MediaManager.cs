@@ -39,7 +39,7 @@ namespace bl
 
             await _parsedTextRespository.AddManyAsync(parsedText);
 
-            _indexManager.AddUpdateLuceneIndex(parsedText);
+            _indexManager.AddUpdateLuceneIndex(parsedText, media.Id);
 
             return newMedia;
 

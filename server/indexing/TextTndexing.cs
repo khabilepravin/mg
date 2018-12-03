@@ -24,12 +24,6 @@ namespace indexing
             _parsedTextRespository = parsedTextRespository;
         }
 
-        //public  string _luceneDir =
-        //    Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene_index");
-        //PATH FOR LOCAL TESTING
-        //Path.Combine(@"C:\Personal\Projects\moviegrepRevival\moviregrepRevival\Source\humanInterface\ui", "lucene_index");
-         //string _luceneDir = @"c:\users\pravin.khabile\luceneindexes-3";
-
         private  FSDirectory _directoryTemp;
         private  FSDirectory _directory
         {
@@ -37,20 +31,18 @@ namespace indexing
             {
                 if (_directoryTemp == null) _directoryTemp = FSDirectory.Open(new DirectoryInfo(_luceneDir));
                 if (IndexWriter.IsLocked(_directoryTemp)) IndexWriter.Unlock(_directoryTemp);
-                // var lockFilePath = Path.Combine(_luceneDir, "write.lock");
-                //if (File.Exists(lockFilePath)) File.Delete(lockFilePath);
                 return _directoryTemp;
             }
         }
 
-        public  void AddUpdateLuceneIndex(IEnumerable<ParsedText> sampleDatas)
+        public  void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToParse, string titleId=null)
         {
             // init lucene
             var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
             using (var writer = new IndexWriter(_directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 // add data to lucene search index (replaces older entries if any)
-                foreach (var sampleData in sampleDatas) _addToLuceneIndex(sampleData, writer);
+                foreach (var sampleData in dataToParse) _addToLuceneIndex(sampleData, writer, titleId);
 
                 // close handles
                 analyzer.Close();
@@ -58,7 +50,7 @@ namespace indexing
             }
         }
 
-        private  void _addToLuceneIndex(ParsedText sampleData, IndexWriter writer)
+        private  void _addToLuceneIndex(ParsedText sampleData, IndexWriter writer, string titleId=null)
         {
             // remove older index entry
             //var searchQuery = new TermQuery(new Term("Id", sampleData.Id.ToString()));
@@ -69,6 +61,7 @@ namespace indexing
 
             // add lucene fields mapped to db fields
             doc.Add(new Field("Id", sampleData.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("TitleId", titleId, Field.Store.YES, Field.Index.NOT_ANALYZED));
             doc.Add(new Field("Text", sampleData.Text, Field.Store.NO, Field.Index.ANALYZED));
 
 
@@ -76,7 +69,7 @@ namespace indexing
             writer.AddDocument(doc);
         }
 
-        public  IEnumerable<ParsedText> Search(string searchQuery, string searchField = null)
+        public  IEnumerable<ParsedText> Search(string searchQuery, string searchField = null, string titleId=null)
         {
             if (string.IsNullOrWhiteSpace(searchQuery.Replace("*", string.Empty).Replace("?", string.Empty))) return new List<ParsedText>();
 
@@ -110,7 +103,7 @@ namespace indexing
                 else
                 {
                     var parser = new MultiFieldQueryParser
-                        (Lucene.Net.Util.Version.LUCENE_30, new[] { "Id", "Text" }, analyzer);
+                        (Lucene.Net.Util.Version.LUCENE_30, new[] { "Id", "Text", "TitleId" }, analyzer);
                     var query = parseQuery(searchQuery, parser);
                     var hits = searcher.Search(query, null, hits_limit, Sort.INDEXORDER).ScoreDocs;
                     var results = _mapLuceneToDataList(hits, searcher);

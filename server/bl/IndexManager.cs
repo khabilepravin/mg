@@ -12,9 +12,9 @@ namespace bl
             _textIndexing = textIndexing;
         }
 
-        public void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToIndex)
+        public void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToIndex, string titleId)
         {
-            _textIndexing.AddUpdateLuceneIndex(dataToIndex);
+            _textIndexing.AddUpdateLuceneIndex(dataToIndex, titleId);
         }
     }
 }
