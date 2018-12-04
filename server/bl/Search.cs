@@ -14,7 +14,9 @@ namespace bl
 
         public IEnumerable<ParsedText> SearchText(string searchQuery, string searchField = null, string titleId=null)
         {
-            return _textIndexing.Search(searchQuery, searchField, titleId);
+            string query = $"Text:{searchQuery} AND TitleId:{titleId}";
+
+            return _textIndexing.Search(query, searchField, titleId);
         }
     }
 }
