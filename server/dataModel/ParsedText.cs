@@ -10,5 +10,6 @@ namespace dataModel
         public string ArtistId { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public string GroupId { get; set; }
     }
 }
