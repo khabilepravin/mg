@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace dataModel.Repositories
 {
@@ -11,15 +13,23 @@ namespace dataModel.Repositories
         {
             using (var db = base._dbContextFactory.Create())
             {
-                foreach(var parsedT in parsedText)
-                {
-                    await db.AddAsync(parsedT);
-                }
-
+                await db.ParsedText.AddRangeAsync(parsedText);
                 await db.SaveChangesAsync();
                 return true;
             }
 
+        }
+
+        public async Task<bool> UpdateManyAsync(IEnumerable<ParsedText> parsedTextCollection)
+        {
+            using (var db = base._dbContextFactory.Create())
+            {
+                db.ParsedText.UpdateRange(parsedTextCollection);
+                var rowsAffected = await db.SaveChangesAsync();
+
+                return rowsAffected > 0 ? true : false;
+
+            }
         }
 
         public async Task<ParsedText> GetParsedText(string id)
@@ -27,6 +37,17 @@ namespace dataModel.Repositories
             using(var db = base._dbContextFactory.Create())
             {
                return await db.ParsedText.FindAsync(id);
+            }
+        }
+
+        public async Task<IEnumerable<ParsedText>> GetParsedTextByIds(IEnumerable<string> parsedTextIds)
+        {
+            
+            using(var db = base._dbContextFactory.Create())
+            {
+                return await (from p in db.ParsedText
+                              where parsedTextIds.Contains(p.Id)
+                              select p).ToListAsync<ParsedText>();
             }
         }
     }

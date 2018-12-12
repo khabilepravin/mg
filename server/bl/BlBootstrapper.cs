@@ -14,6 +14,7 @@ namespace bl
             containerBuilder.RegisterType<MediaManager>().As<IMediaManager>();
             containerBuilder.RegisterType<IndexManager>().As<IIndexManager>();
             containerBuilder.RegisterType<Search>().As<ISearch>();
+            containerBuilder.RegisterType<TextManager>().As<ITextManager>();
         }
     }
 }
