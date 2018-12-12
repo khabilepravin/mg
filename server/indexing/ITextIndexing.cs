@@ -5,7 +5,7 @@ namespace indexing
 {
     public interface ITextIndexing
     {
-        bool IndexText(IEnumerable<ParsedText> dataToIndex);
-        IEnumerable<ParsedText> SearchText(string searchString);
+        void AddUpdateLuceneIndex(IEnumerable<ParsedText> dataToIndex, string titleId=null);
+        IEnumerable<ParsedText> Search(string searchQuery, string titleId=null, string searchField = null);
     }
 }

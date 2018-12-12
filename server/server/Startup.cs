@@ -1,13 +1,14 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using bl;
-using dataModel;
+using indexing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using server.Diagnostics;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 
@@ -46,9 +47,8 @@ namespace server
             containerBuilder.Populate(services);
            // DataBootstrapper.Bootstrap(containerBuilder);
             BlBootstrapper.Bootstrap(containerBuilder);
-
-            this.Container = containerBuilder.Build();
             
+            this.Container = containerBuilder.Build();
 
             return new AutofacServiceProvider(this.Container);
         }
@@ -71,6 +71,7 @@ namespace server
                 c.DocumentTitle = "MG API";
             });
 
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -113,6 +113,8 @@ namespace dataModel.Migrations
 
                     b.Property<TimeSpan>("EndTime");
 
+                    b.Property<string>("GroupId");
+
                     b.Property<string>("MediaTextId")
                         .IsRequired();
 

@@ -6,5 +6,6 @@ namespace dataModel.Repositories
     {
         Task<Media> AddAsync(Media media);
         Task<Media> UpdateAsync(Media media);
+        Task<Media> GetMedia(string id);
     }
 }
