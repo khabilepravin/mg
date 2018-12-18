@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181218105342_TagMaster")]
+    partial class TagMaster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,22 +79,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MediaArtist");
-                });
-
-            modelBuilder.Entity("dataModel.MediaTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("MediaId")
-                        .IsRequired();
-
-                    b.Property<string>("TagId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MediaTag");
                 });
 
             modelBuilder.Entity("dataModel.MediaText", b =>
