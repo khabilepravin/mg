@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,17 @@ namespace dataModel.Repositories
     public class TagRepository : BaseRepository, ITagRepository
     {
         public TagRepository(IDbContextFactory dbContextFactory) : base(dbContextFactory) { }
+
+        public async Task<TagMaster> AddTag(TagMaster tagMaster)
+        {
+            using (var db = base._dbContextFactory.Create())
+            {
+                tagMaster.Created = DateTime.UtcNow;
+                await db.TagMaster.AddAsync(tagMaster);
+                await db.SaveChangesAsync();
+                return tagMaster;
+            }
+        }
 
         public async Task<int> AddTagsForMedia(IEnumerable<string> tagIds, string mediaId)
         {

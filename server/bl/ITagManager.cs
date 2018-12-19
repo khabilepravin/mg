@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using dataModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace dataModel.Repositories
+namespace bl
 {
-    public interface ITagRepository
+    public interface ITagManager
     {
-        Task<TagMaster> AddTag(TagMaster tagMaster);
+        Task<TagMaster> AddTag(string tag);
         Task<int> AddTagsForMedia(IEnumerable<string> tagIds, string mediaId);
         Task<IEnumerable<TagMaster>> GetTags(string tagBegging);
         Task<IEnumerable<TagMaster>> GetTagsForMedia(string mediaId);
