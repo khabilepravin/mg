@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace dataModel.Repositories
 {
@@ -35,6 +38,16 @@ namespace dataModel.Repositories
             using (var db = base._dbContextFactory.Create())
             {
                 return await db.Media.FindAsync(id);
+            }
+        }
+
+        public async Task<IEnumerable<Media>> Search(string searchText)
+        {
+            using (var db = base._dbContextFactory.Create())
+            {
+                return await (from m in db.Media
+                              where m.Name.Contains(searchText)
+                              select m).ToListAsync<Media>();
             }
         }
     }
