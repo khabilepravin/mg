@@ -16,6 +16,7 @@ namespace dataModel
         public DbSet<ParsedText> ParsedText { get; set; }
         public DbSet<TagMaster> TagMaster { get; set; }
         public DbSet<MediaTag> MediaTag { get; set; }
+        public DbSet<TextTag> TextTag { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,6 +66,13 @@ namespace dataModel
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaId).IsRequired();
+                entity.Property(e => e.TagId).IsRequired();
+            });
+
+            modelBuilder.Entity<TextTag>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ParsedTextId).IsRequired();
                 entity.Property(e => e.TagId).IsRequired();
             });
         }
