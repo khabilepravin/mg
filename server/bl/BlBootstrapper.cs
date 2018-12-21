@@ -17,6 +17,7 @@ namespace bl
             containerBuilder.RegisterType<TextManager>().As<ITextManager>();
             containerBuilder.RegisterType<MediaArtistManager>().As<IMediaArtistManager>();
             containerBuilder.RegisterType<TagManager>().As<ITagManager>();
+            containerBuilder.RegisterType<TextTagManager>().As<ITextTagManager>();
         }
     }
 }

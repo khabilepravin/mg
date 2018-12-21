@@ -1,4 +1,5 @@
 ﻿using bl;
+using dataModel;
 using Microsoft.AspNetCore.Mvc;
 using server.RequestTypes;
 using server.ResponseTypes;
@@ -10,12 +11,14 @@ namespace server.Controllers
     public class TagController : BaseController
     {
         private readonly ITagManager _tagManager;
-        public TagController(ITagManager tagManager)
+        private readonly ITextTagManager _textTagManager;
+        public TagController(ITagManager tagManager, ITextTagManager textTagManager)
         {
             _tagManager = tagManager;
+            _textTagManager = textTagManager;
         }
 
-        [HttpPost("{mediaId}")]
+        [HttpPost("media/{mediaId}")]
         public async Task<IActionResult> AddTagToMedia([FromBody]IEnumerable<string> tagIds, [FromRoute]string mediaId)
         {
             if (!ModelState.IsValid)
@@ -39,6 +42,19 @@ namespace server.Controllers
             var tagRecord = await _tagManager.AddTag(addTagRequest.TagText);
 
             return Ok(new ApiOkResponse(tagRecord));
+        }
+
+        [HttpPost("text/{textId}")]
+        public async Task<IActionResult> AddTextTag([FromBody]IEnumerable<string> tagIds, [FromRoute]string textId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var affectedRows = await _textTagManager.AddTextTag(tagIds, textId);
+
+            return Ok(new ApiOkResponse(affectedRows));
         }
     }
 }
