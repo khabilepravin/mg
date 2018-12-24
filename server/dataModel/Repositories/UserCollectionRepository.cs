@@ -14,7 +14,7 @@ namespace dataModel.Repositories
         {
             using(var db = _dbContextFactory.Create())
             {
-                await db.UserCollections.AddAsync(userCollection);
+                await db.UserCollection.AddAsync(userCollection);
                 await db.SaveChangesAsync();
                 return userCollection;
             }
@@ -24,7 +24,7 @@ namespace dataModel.Repositories
         {
             using (var db = _dbContextFactory.Create())
             {
-                return await (from uc in db.UserCollections
+                return await (from uc in db.UserCollection
                         where uc.UserId == userId
                         select uc).ToListAsync<UserCollection>();
             }
@@ -34,7 +34,7 @@ namespace dataModel.Repositories
         {
             using (var db = _dbContextFactory.Create())
             {
-                return await(from uc in db.UserCollections
+                return await(from uc in db.UserCollection
                              where uc.Name.Contains(searchString) || uc.Description.Contains(searchString)
                              select uc).ToListAsync<UserCollection>();
             }

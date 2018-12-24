@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181224194231_UpdateUserCollectionTableRemovedParsedTextIdColumn")]
+    partial class UpdateUserCollectionTableRemovedParsedTextIdColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,27 +199,7 @@ namespace dataModel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserCollection");
-                });
-
-            modelBuilder.Entity("dataModel.UserCollectionItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Added");
-
-                    b.Property<string>("CollectionId")
-                        .IsRequired();
-
-                    b.Property<string>("EntityId")
-                        .IsRequired();
-
-                    b.Property<string>("EntityType");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserCollectionItem");
+                    b.ToTable("UserCollections");
                 });
 #pragma warning restore 612, 618
         }
