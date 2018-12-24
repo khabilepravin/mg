@@ -17,6 +17,7 @@ namespace dataModel
         public DbSet<TagMaster> TagMaster { get; set; }
         public DbSet<MediaTag> MediaTag { get; set; }
         public DbSet<TextTag> TextTag { get; set; }
+        public DbSet<UserCollection> UserCollections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -74,6 +75,14 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ParsedTextId).IsRequired();
                 entity.Property(e => e.TagId).IsRequired();
+            });
+
+            modelBuilder.Entity<UserCollection>(entity => 
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.ParsedTextId).IsRequired();
+                entity.Property(e => e.UserId).IsRequired();
             });
         }
     }
