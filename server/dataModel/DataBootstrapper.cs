@@ -16,6 +16,7 @@ namespace dataModel
             containerBuilder.RegisterType<TextTagRepository>().As<ITextTagRepository>().SingleInstance();
             containerBuilder.RegisterType<UserCollectionRepository>().As<IUserCollectionRepository>().SingleInstance();
             containerBuilder.RegisterType<UserCollectionItemRepository>().As<IUserCollectionItemRepository>().SingleInstance();
+            containerBuilder.RegisterType<ParsedTextArtistRepository>().As<IParsedTextArtistRepository>().SingleInstance();
         }
     }
 }
