@@ -19,6 +19,7 @@ namespace dataModel
         public DbSet<TextTag> TextTag { get; set; }
         public DbSet<UserCollection> UserCollection { get; set; }
         public DbSet<UserCollectionItem> UserCollectionItem { get; set; }
+        public DbSet<ParsedTextArtist> ParsedTextArtist { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -27,7 +28,7 @@ namespace dataModel
             {
                 optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
 
-             this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             }
         }
 
@@ -91,6 +92,13 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.CollectionId).IsRequired();
                 entity.Property(e => e.EntityId).IsRequired();
+            });
+
+            modelBuilder.Entity<ParsedTextArtist>(entity => 
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.MediaArtistId).IsRequired();
+                entity.Property(e => e.ParsedTextId).IsRequired();
             });
         }
     }
