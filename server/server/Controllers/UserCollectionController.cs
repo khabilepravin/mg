@@ -23,7 +23,7 @@ namespace server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userCollection = new UserCollection { Name = userCollectionRequest.Name, Description = userCollectionRequest.Description };
+           var userCollection = new UserCollection { Name = userCollectionRequest.Name, Description = userCollectionRequest.Description, UserId= userCollectionRequest.UserId };
            var collection = await _userCollectionManager.AddAsync(userCollection, userCollectionRequest.TextIds, userCollectionRequest.CollectionType);
 
             return Ok(new ApiOkResponse(collection));

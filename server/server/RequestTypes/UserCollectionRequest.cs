@@ -8,5 +8,6 @@ namespace server.RequestTypes
         public string Description { get; set; }
         public IEnumerable<string> TextIds { get; set; }
         public string CollectionType { get; set; }
+        public string UserId { get; set; }
     }
 }
