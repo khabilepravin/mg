@@ -23,11 +23,11 @@ namespace dataModel
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+           if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
 
-               this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+             this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             }
         }
 
