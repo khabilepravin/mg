@@ -20,6 +20,7 @@ namespace dataModel
         public DbSet<UserCollection> UserCollection { get; set; }
         public DbSet<UserCollectionItem> UserCollectionItem { get; set; }
         public DbSet<ParsedTextArtist> ParsedTextArtist { get; set; }
+        public DbSet<UserFavorite> UserFavorite { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -99,6 +100,13 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaArtistId).IsRequired();
                 entity.Property(e => e.ParsedTextId).IsRequired();
+            });
+
+            modelBuilder.Entity<UserFavorite>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ParsedTextId).IsRequired();
+                entity.Property(e => e.UserId).IsRequired();
             });
         }
     }
