@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181218111652_MediaTagTableAdd")]
+    partial class MediaTagTableAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,26 +145,6 @@ namespace dataModel.Migrations
                     b.ToTable("ParsedText");
                 });
 
-            modelBuilder.Entity("dataModel.ParsedTextArtist", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("MediaArtistId")
-                        .IsRequired();
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParsedTextArtist");
-                });
-
             modelBuilder.Entity("dataModel.TagMaster", b =>
                 {
                     b.Property<string>("Id")
@@ -180,82 +162,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TagMaster");
-                });
-
-            modelBuilder.Entity("dataModel.TextTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("TagId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TextTag");
-                });
-
-            modelBuilder.Entity("dataModel.UserCollection", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("Modified");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserCollection");
-                });
-
-            modelBuilder.Entity("dataModel.UserCollectionItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Added");
-
-                    b.Property<string>("CollectionId")
-                        .IsRequired();
-
-                    b.Property<string>("EntityId")
-                        .IsRequired();
-
-                    b.Property<string>("EntityType");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserCollectionItem");
-                });
-
-            modelBuilder.Entity("dataModel.UserFavorite", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserFavorite");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,20 +2,51 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190101053111_MediaArtistTable_Rename")]
+    partial class MediaArtistTable_Rename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("dataModel.EntityArtist", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ArtistCharacterName");
+
+                    b.Property<string>("ArtistName");
+
+                    b.Property<string>("ArtistType");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("EntityId")
+                        .IsRequired();
+
+                    b.Property<string>("EntityType");
+
+                    b.Property<string>("ExternalLink");
+
+                    b.Property<string>("Image");
+
+                    b.Property<DateTime>("Modified");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EntityArtist");
+                });
 
             modelBuilder.Entity("dataModel.Media", b =>
                 {
@@ -50,33 +81,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Media");
-                });
-
-            modelBuilder.Entity("dataModel.MediaArtist", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("ExternalLink");
-
-                    b.Property<string>("Image");
-
-                    b.Property<string>("MediaId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Modified");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("PersonName");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MediaArtist");
                 });
 
             modelBuilder.Entity("dataModel.MediaTag", b =>
@@ -141,26 +145,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ParsedText");
-                });
-
-            modelBuilder.Entity("dataModel.ParsedTextArtist", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("MediaArtistId")
-                        .IsRequired();
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParsedTextArtist");
                 });
 
             modelBuilder.Entity("dataModel.TagMaster", b =>
@@ -238,24 +222,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserCollectionItem");
-                });
-
-            modelBuilder.Entity("dataModel.UserFavorite", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserFavorite");
                 });
 #pragma warning restore 612, 618
         }

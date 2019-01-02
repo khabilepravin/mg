@@ -39,5 +39,13 @@ namespace server.Controllers
 
             return Ok(new ApiOkResponse(newMedia));
         }
+
+        [HttpGet("{searchText}")]
+        public async Task<IActionResult> SearchMedia([FromRoute]string searchText)
+        {
+            var result = await _mediaManager.Search(searchText);
+
+            return Ok(new ApiOkResponse(result));
+        }
     }
 } 

@@ -11,6 +11,13 @@ namespace dataModel
             containerBuilder.RegisterType<MediaRepository>().As<IMediaRepository>().SingleInstance();
             containerBuilder.RegisterType<MediaTextRepository>().As<IMediaTextRespository>().SingleInstance();
             containerBuilder.RegisterType<ParsedTextRespository>().As<IParsedTextRespository>().SingleInstance();
+            containerBuilder.RegisterType<MediaArtistRepository>().As<IMediaArtistRepository>().SingleInstance();
+            containerBuilder.RegisterType<TagRepository>().As<ITagRepository>().SingleInstance();
+            containerBuilder.RegisterType<TextTagRepository>().As<ITextTagRepository>().SingleInstance();
+            containerBuilder.RegisterType<UserCollectionRepository>().As<IUserCollectionRepository>().SingleInstance();
+            containerBuilder.RegisterType<UserCollectionItemRepository>().As<IUserCollectionItemRepository>().SingleInstance();
+            containerBuilder.RegisterType<ParsedTextArtistRepository>().As<IParsedTextArtistRepository>().SingleInstance();
+            containerBuilder.RegisterType<UserFavoriteRepository>().As<IUserFavoriteRepository>().SingleInstance();
         }
     }
 }

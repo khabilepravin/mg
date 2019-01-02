@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataModel;
 
 namespace dataModel.Migrations
 {
     [DbContext(typeof(MgDataContext))]
-    partial class MgDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181224194819_UserCollectionItem_And_UserCollectionFix")]
+    partial class UserCollectionItem_And_UserCollectionFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,26 +145,6 @@ namespace dataModel.Migrations
                     b.ToTable("ParsedText");
                 });
 
-            modelBuilder.Entity("dataModel.ParsedTextArtist", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("MediaArtistId")
-                        .IsRequired();
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParsedTextArtist");
-                });
-
             modelBuilder.Entity("dataModel.TagMaster", b =>
                 {
                     b.Property<string>("Id")
@@ -238,24 +220,6 @@ namespace dataModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserCollectionItem");
-                });
-
-            modelBuilder.Entity("dataModel.UserFavorite", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("ParsedTextId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserFavorite");
                 });
 #pragma warning restore 612, 618
         }

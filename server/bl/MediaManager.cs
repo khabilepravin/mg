@@ -1,6 +1,7 @@
 ﻿using dataModel;
 using dataModel.Repositories;
 using mgparser;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace bl
@@ -43,6 +44,11 @@ namespace bl
 
             return newMedia;
 
+        }
+
+        public async Task<IEnumerable<Media>> Search(string searchText)
+        {
+            return await _mediaRepository.Search(searchText);
         }
     }
 }

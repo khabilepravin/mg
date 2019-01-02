@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace dataModel.Repositories
 {
@@ -7,5 +8,6 @@ namespace dataModel.Repositories
         Task<Media> AddAsync(Media media);
         Task<Media> UpdateAsync(Media media);
         Task<Media> GetMedia(string id);
+        Task<IEnumerable<Media>> Search(string searchText);
     }
 }
