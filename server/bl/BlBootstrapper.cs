@@ -20,6 +20,7 @@ namespace bl
             containerBuilder.RegisterType<TextTagManager>().As<ITextTagManager>();
             containerBuilder.RegisterType<UserCollectionManager>().As<IUserCollectionManager>();
             containerBuilder.RegisterType<ParsedTextArtistManager>().As<IParsedTextArtistManager>();
+            containerBuilder.RegisterType<UserFavoriteManager>().As<IUserFavoriteManager>();
         }
     }
 }

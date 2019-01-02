@@ -17,6 +17,7 @@ namespace dataModel
             containerBuilder.RegisterType<UserCollectionRepository>().As<IUserCollectionRepository>().SingleInstance();
             containerBuilder.RegisterType<UserCollectionItemRepository>().As<IUserCollectionItemRepository>().SingleInstance();
             containerBuilder.RegisterType<ParsedTextArtistRepository>().As<IParsedTextArtistRepository>().SingleInstance();
+            containerBuilder.RegisterType<UserFavoriteRepository>().As<IUserFavoriteRepository>().SingleInstance();
         }
     }
 }
