@@ -25,12 +25,19 @@ namespace dataModel
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           if (!optionsBuilder.IsConfigured)
+            #region Comment this region-code for database migration and update
+            if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
 
                 this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             }
+            #endregion
+
+            #region Uncomment this region-code for database migration and update
+            //Note: Put the connection string of your db
+            //optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
+            #endregion
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
