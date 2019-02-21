@@ -20,17 +20,17 @@ namespace server.Controllers
 
         // POST: api/Media
         [HttpPost]
-        public async Task<IActionResult> PostMedia([ModelBinder(BinderType = typeof(JsonModelBinder))] Media media,
-                IFormFile file)
+        public async Task<IActionResult> PostMedia([ModelBinder(BinderType = typeof(JsonModelBinder))] Media media)
         {
-            if (!ModelState.IsValid)
+            var mediaFile = Request.Form.Files != null ? Request.Form.Files[0] : null;
+            if (!ModelState.IsValid || mediaFile == null)
             {
                 return BadRequest(ModelState);
             }
-
+            
             var mediaText = new MediaText();
 
-            using (var reader = new StreamReader(file.OpenReadStream()))
+            using (var reader = new StreamReader(mediaFile.OpenReadStream()))
             {
                 mediaText.Text = await reader.ReadToEndAsync();
             }
