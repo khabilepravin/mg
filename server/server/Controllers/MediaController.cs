@@ -44,7 +44,7 @@ namespace server.Controllers
         {
             var result = await _mediaManager.Search(searchText);
 
-            return Ok(new ApiOkResponse(result));
+            return Ok(result);
         }
 
         [HttpGet("{mediaId}/text")]
