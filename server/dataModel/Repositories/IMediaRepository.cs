@@ -9,5 +9,6 @@ namespace dataModel.Repositories
         Task<Media> UpdateAsync(Media media);
         Task<Media> GetMedia(string id);
         Task<IEnumerable<Media>> Search(string searchText);
+        Task<IEnumerable<ParsedText>> GetMediaText(string mediaId);
     }
 }

@@ -50,5 +50,10 @@ namespace bl
         {
             return await _mediaRepository.Search(searchText);
         }
+
+        public async Task<IEnumerable<ParsedText>> GetTextByMedia(string mediaId)
+        {
+            return await _mediaRepository.GetMediaText(mediaId);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using bl;
 using dataModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using server.ResponseTypes;
@@ -27,7 +26,7 @@ namespace server.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var mediaText = new MediaText();
 
             using (var reader = new StreamReader(mediaFile.OpenReadStream()))
@@ -46,6 +45,14 @@ namespace server.Controllers
             var result = await _mediaManager.Search(searchText);
 
             return Ok(new ApiOkResponse(result));
+        }
+
+        [HttpGet("{mediaId}/text")]
+        public async Task<IActionResult> GetMediaText([FromRoute]string mediaId)
+        {
+            var mediaText = await _mediaManager.GetTextByMedia(mediaId);
+
+            return Ok(new ApiOkResponse(mediaText));
         }
     }
 } 

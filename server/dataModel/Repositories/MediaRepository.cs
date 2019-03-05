@@ -50,5 +50,19 @@ namespace dataModel.Repositories
                               select m).ToListAsync<Media>();
             }
         }
+
+        public async Task<IEnumerable<ParsedText>> GetMediaText(string mediaId)
+        {
+            using(var db = base._dbContextFactory.Create())
+            {
+                var mediaTextId = await (from m in db.MediaText
+                           where m.MediaId == mediaId
+                           select m.Id).FirstOrDefaultAsync<string>();
+
+                return await (from p in db.ParsedText
+                              where p.MediaTextId == mediaTextId
+                              select p).ToListAsync<ParsedText>();
+            }
+        }
     }
 }
