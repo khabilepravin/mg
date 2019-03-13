@@ -27,5 +27,13 @@ namespace server.Controllers
 
             return Ok(new ApiOkResponse(result));
         }
+
+        [HttpGet("mediatext/{mediaId}")]
+        public async Task<IActionResult> GetPopularTextByMediaId([FromRoute]string mediaId)
+        {
+            var result = await _textManager.GetPopularTextForMedia(mediaId);
+
+            return Ok(new ApiOkResponse(result));
+        }
     }
 }

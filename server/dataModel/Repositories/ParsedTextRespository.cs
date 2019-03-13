@@ -54,12 +54,7 @@ namespace dataModel.Repositories
         {
             using(var db = base._dbContextFactory.Create())
             {
-                var parsedText = await (from mt in db.MediaText
-                                        where mt.MediaId == mediaId
-                                        select mt.Id).FirstOrDefaultAsync<string>();
-
-                return null;
-                
+                return await db.ParsedText.FromSql<ParsedText>("CALL usp_getUserFavoriteParsedTextByMediaId(@inputMediaId)", mediaId).ToListAsync<ParsedText>();
             }
         }
     }

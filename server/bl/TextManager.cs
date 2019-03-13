@@ -1,4 +1,5 @@
-﻿using dataModel.Repositories;
+﻿using dataModel;
+using dataModel.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace bl
            
             return await _parsedTextRespository.UpdateManyAsync(parsedTextCollection);
             
+        }
+
+        public async Task<IEnumerable<ParsedText>> GetPopularTextForMedia(string mediaId)
+        {
+            return await _parsedTextRespository.GetFavoriteParsedTextByMediaId(mediaId);
         }
     }
 }
