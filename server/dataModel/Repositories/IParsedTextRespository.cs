@@ -9,5 +9,6 @@ namespace dataModel.Repositories
         Task<bool> UpdateManyAsync(IEnumerable<ParsedText> parsedTextCollection);
         Task<ParsedText> GetParsedText(string id);
         Task<IEnumerable<ParsedText>> GetParsedTextByIds(IEnumerable<string> parsedTextIds);
+        Task<IEnumerable<ParsedText>> GetFavoriteParsedTextByMediaId(string mediaId);
     }
 }

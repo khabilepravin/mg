@@ -41,13 +41,25 @@ namespace dataModel.Repositories
         }
 
         public async Task<IEnumerable<ParsedText>> GetParsedTextByIds(IEnumerable<string> parsedTextIds)
-        {
-            
+        {   
             using(var db = base._dbContextFactory.Create())
             {
                 return await (from p in db.ParsedText
                               where parsedTextIds.Contains(p.Id)
                               select p).ToListAsync<ParsedText>();
+            }
+        }
+
+        public async Task<IEnumerable<ParsedText>> GetFavoriteParsedTextByMediaId(string mediaId)
+        {
+            using(var db = base._dbContextFactory.Create())
+            {
+                var parsedText = await (from mt in db.MediaText
+                                        where mt.MediaId == mediaId
+                                        select mt.Id).FirstOrDefaultAsync<string>();
+
+                return null;
+                
             }
         }
     }
