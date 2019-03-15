@@ -1,6 +1,5 @@
 ﻿using bl;
 using Microsoft.AspNetCore.Mvc;
-using server.ResponseTypes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace server.Controllers
 
             var result = await _textManager.GroupText(textIds);
 
-            return Ok(new ApiOkResponse(result));
+            return Ok(result);
         }
 
         [HttpGet("mediatext/{mediaId}")]

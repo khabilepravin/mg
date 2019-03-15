@@ -2,7 +2,6 @@
 using dataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using server.ResponseTypes;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -36,7 +35,7 @@ namespace server.Controllers
 
             var newMedia = await _mediaManager.AddMediaParsedAsync(media, mediaText);
 
-            return Ok(new ApiOkResponse(newMedia));
+            return Ok(newMedia);
         }
 
         [HttpGet("{searchText}")]
@@ -52,7 +51,7 @@ namespace server.Controllers
         {
             var mediaText = await _mediaManager.GetTextByMedia(mediaId);
 
-            return Ok(new ApiOkResponse(mediaText));
+            return Ok(mediaText);
         }
     }
 } 

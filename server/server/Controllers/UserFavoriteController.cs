@@ -1,7 +1,6 @@
 ﻿using bl;
 using dataModel;
 using Microsoft.AspNetCore.Mvc;
-using server.ResponseTypes;
 using System.Threading.Tasks;
 
 namespace server.Controllers
@@ -24,7 +23,7 @@ namespace server.Controllers
 
             var addedEntity = await _userFavoriteManager.AddAsync(userFavorite);
 
-            return Ok(new ApiOkResponse(addedEntity));
+            return Ok(addedEntity);
         }
 
         [HttpGet("{userId}")]
@@ -32,7 +31,7 @@ namespace server.Controllers
         {
             var userFavorites = await _userFavoriteManager.GetAsync(userId);
 
-            return Ok(new ApiOkResponse(userFavorites));
+            return Ok(userFavorites);
         }
     }
 }

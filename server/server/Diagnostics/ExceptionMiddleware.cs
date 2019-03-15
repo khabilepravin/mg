@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using server.ResponseTypes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -37,7 +34,7 @@ namespace server.Diagnostics
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            return context.Response.WriteAsync(new ApiErrorResponse(exception.Message).ToString());
+            return context.Response.WriteAsync(exception.Message);
         }
     }
 }

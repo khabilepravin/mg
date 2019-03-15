@@ -1,8 +1,6 @@
 ﻿using bl;
-using dataModel;
 using Microsoft.AspNetCore.Mvc;
 using server.RequestTypes;
-using server.ResponseTypes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,7 +26,7 @@ namespace server.Controllers
 
             var recordsAffected = await _tagManager.AddTagsForMedia(tagIds, mediaId);
 
-            return Ok(new ApiOkResponse(recordsAffected));
+            return Ok(recordsAffected);
         }
 
         [HttpPost]
@@ -41,7 +39,7 @@ namespace server.Controllers
 
             var tagRecord = await _tagManager.AddTag(addTagRequest.TagText);
 
-            return Ok(new ApiOkResponse(tagRecord));
+            return Ok(tagRecord);
         }
 
         [HttpPost("text/{textId}")]
@@ -54,7 +52,7 @@ namespace server.Controllers
 
             var affectedRows = await _textTagManager.AddTextTag(tagIds, textId);
 
-            return Ok(new ApiOkResponse(affectedRows));
+            return Ok(affectedRows);
         }
     }
 }

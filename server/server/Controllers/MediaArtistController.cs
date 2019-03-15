@@ -1,7 +1,6 @@
 ﻿using bl;
 using dataModel;
 using Microsoft.AspNetCore.Mvc;
-using server.ResponseTypes;
 using System.Threading.Tasks;
 
 namespace server.Controllers
@@ -24,7 +23,7 @@ namespace server.Controllers
 
             var newMediaArtist = await _mediaArtistManager.AddAsync(mediaArtist);
 
-            return Ok(new ApiOkResponse(newMediaArtist));
+            return Ok(newMediaArtist);
         }
 
     }

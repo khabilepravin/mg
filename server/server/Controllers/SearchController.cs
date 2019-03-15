@@ -1,6 +1,5 @@
 ﻿using bl;
 using Microsoft.AspNetCore.Mvc;
-using server.ResponseTypes;
 
 namespace server.Controllers
 {
@@ -22,7 +21,7 @@ namespace server.Controllers
                 return NotFound($"No results found for the \"{searchText}\".");
             }
 
-            return Ok(new ApiOkResponse(searchResults));
+            return Ok(searchResults);
         }
     }
 }

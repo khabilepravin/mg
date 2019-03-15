@@ -2,7 +2,6 @@
 using dataModel;
 using Microsoft.AspNetCore.Mvc;
 using server.RequestTypes;
-using server.ResponseTypes;
 using System.Threading.Tasks;
 
 namespace server.Controllers
@@ -26,7 +25,7 @@ namespace server.Controllers
            var userCollection = new UserCollection { Name = userCollectionRequest.Name, Description = userCollectionRequest.Description, UserId= userCollectionRequest.UserId };
            var collection = await _userCollectionManager.AddAsync(userCollection, userCollectionRequest.TextIds, userCollectionRequest.CollectionType);
 
-            return Ok(new ApiOkResponse(collection));
+            return Ok(collection);
         }
 
     }
