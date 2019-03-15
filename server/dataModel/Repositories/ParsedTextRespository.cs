@@ -54,7 +54,23 @@ namespace dataModel.Repositories
         {
             using(var db = base._dbContextFactory.Create())
             {
-                return await db.ParsedText.FromSql<ParsedText>("CALL usp_getUserFavoriteParsedTextByMediaId(@inputMediaId)", mediaId).ToListAsync<ParsedText>();
+
+                var mediaTextId = (from m in db.MediaText
+                                   where m.MediaId == mediaId
+                                   select m.Id).FirstOrDefault<string>();
+
+                if (!string.IsNullOrWhiteSpace(mediaTextId))
+                {
+                    return await (from parsedText in db.ParsedText
+                                  join userFavorite in db.UserFavorite on parsedText.Id equals userFavorite.ParsedTextId
+                                  where parsedText.MediaTextId == mediaTextId
+                                  select parsedText).ToListAsync<ParsedText>();
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
     }

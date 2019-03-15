@@ -33,7 +33,7 @@ namespace server.Controllers
         {
             var result = await _textManager.GetPopularTextForMedia(mediaId);
 
-            return Ok(new ApiOkResponse(result));
+            return Ok(result);
         }
     }
 }
