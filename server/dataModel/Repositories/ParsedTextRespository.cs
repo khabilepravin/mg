@@ -52,25 +52,13 @@ namespace dataModel.Repositories
 
         public async Task<IEnumerable<ParsedText>> GetFavoriteParsedTextByMediaId(string mediaId)
         {
-            using(var db = base._dbContextFactory.Create())
+            using (var db = base._dbContextFactory.Create())
             {
-
-                var mediaTextId = (from m in db.MediaText
-                                   where m.MediaId == mediaId
-                                   select m.Id).FirstOrDefault<string>();
-
-                if (!string.IsNullOrWhiteSpace(mediaTextId))
-                {
-                    return await (from parsedText in db.ParsedText
-                                  join userFavorite in db.UserFavorite on parsedText.Id equals userFavorite.ParsedTextId
-                                  where parsedText.MediaTextId == mediaTextId
-                                  select parsedText).ToListAsync<ParsedText>();
-                }
-                else
-                {
-                    return null;
-                }
-                
+                return await (from parsedText in db.ParsedText
+                              join mediaText in db.MediaText on parsedText.MediaTextId equals mediaText.Id
+                              join userFavorite in db.UserFavorite on parsedText.Id equals userFavorite.ParsedTextId
+                              where mediaText.MediaId == mediaId
+                              select parsedText).ToListAsync<ParsedText>();
             }
         }
     }
