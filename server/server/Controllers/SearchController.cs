@@ -11,8 +11,8 @@ namespace server.Controllers
             _search = search;
         }
 
-        [HttpGet("{searchText}")]
-        public IActionResult Search([FromRoute]string searchText, string titleId)
+        [HttpGet("{titleId}/{searchText}")]
+        public IActionResult Search([FromRoute]string titleId, [FromRoute]string searchText)
         {
             var searchResults = _search.SearchText(searchText, null, titleId);
 
