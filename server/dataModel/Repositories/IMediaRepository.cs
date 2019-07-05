@@ -10,5 +10,6 @@ namespace dataModel.Repositories
         Task<Media> GetMedia(string id);
         Task<IEnumerable<Media>> Search(string searchText);
         Task<IEnumerable<ParsedText>> GetMediaText(string mediaId);
+        Task<IEnumerable<Media>> GetAllMedia();
     }
 }

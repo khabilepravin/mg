@@ -53,5 +53,13 @@ namespace server.Controllers
 
             return Ok(mediaText);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var allMedia = await _mediaManager.GetAllMedia();
+
+            return Ok(allMedia);
+        }
     }
 } 

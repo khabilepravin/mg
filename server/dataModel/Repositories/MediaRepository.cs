@@ -65,5 +65,14 @@ namespace dataModel.Repositories
 
             }
         }
+
+        public async Task<IEnumerable<Media>> GetAllMedia()
+        {
+            using(var db = base._dbContextFactory.Create())
+            {
+                return await (from m in db.Media
+                              select m).ToListAsync<Media>();
+            }
+        }
     }
 }
