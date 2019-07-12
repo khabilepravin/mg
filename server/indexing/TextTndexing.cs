@@ -18,10 +18,12 @@ namespace indexing
 
         string _luceneDir;
         private IParsedTextRespository _parsedTextRespository;
-        public TextIndexing(IParsedTextRespository parsedTextRespository)
+        private IUserFavoriteRepository _userFavoriteRepository;
+        public TextIndexing(IParsedTextRespository parsedTextRespository, IUserFavoriteRepository userFavoriteRepository)
         {
             _luceneDir = AppDomain.CurrentDomain.BaseDirectory + "luceneindex";
             _parsedTextRespository = parsedTextRespository;
+            _userFavoriteRepository = userFavoriteRepository;
         }
 
         private  FSDirectory _directoryTemp;
@@ -69,7 +71,7 @@ namespace indexing
             writer.AddDocument(doc);
         }
 
-        public  IEnumerable<ParsedText> Search(string searchQuery, string searchField = null, string titleId=null)
+        public  IEnumerable<dynamic> Search(string searchQuery, string searchField = null, string titleId=null)
         {
             if (string.IsNullOrWhiteSpace(searchQuery.Replace("*", string.Empty).Replace("?", string.Empty))) return new List<ParsedText>();
 
@@ -128,19 +130,23 @@ namespace indexing
             return query;
         }
         
-        private  IEnumerable<ParsedText> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
+        private  IEnumerable<dynamic> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
         {   
             return hits.Select(hit => _mapLuceneDocumentToData(searcher.Doc(hit.Doc))).ToList();
         }
 
-        private  ParsedText _mapLuceneDocumentToData(Document doc)
+        private  dynamic _mapLuceneDocumentToData(Document doc)
         {
             var parsedText = _parsedTextRespository.GetParsedText(doc.Get("Id")).Result;
-            return new ParsedText
+            var userFavorite = _userFavoriteRepository.GetByParsedTextIdAsync(parsedText.Id);
+
+            return new
             {
                 Id = doc.Get("Id"),
-                Text = parsedText.Text
+                Text = parsedText.Text,
+                IsPartofFavorite = userFavorite != null
             };
+            
         }
     }
 }

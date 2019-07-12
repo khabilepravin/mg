@@ -7,5 +7,6 @@ namespace dataModel.Repositories
     {
         Task<UserFavorite> AddAsync(UserFavorite userFavorite);
         Task<IEnumerable<ParsedText>> GetAsync(string userId);
+        Task<UserFavorite> GetByParsedTextIdAsync(string parsedTextId);
     }
 }

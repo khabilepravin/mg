@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace dataModel.Repositories
 {
     public class UserFavoriteRepository : BaseRepository, IUserFavoriteRepository
@@ -38,6 +39,16 @@ namespace dataModel.Repositories
                 {
                     return null;
                 }
+            }
+        }
+
+        public async Task<UserFavorite> GetByParsedTextIdAsync(string parsedTextId)
+        {
+            using(var db = _dbContextFactory.Create())
+            {
+                return await (from uf in db.UserFavorite
+                                  where uf.ParsedTextId == parsedTextId
+                                  select uf).FirstOrDefaultAsync<UserFavorite>();
             }
         }
     }

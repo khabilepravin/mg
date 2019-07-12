@@ -5,6 +5,6 @@ namespace bl
 {
     public interface ISearch
     {
-        IEnumerable<ParsedText> SearchText(string searchQuery, string searchField = null, string titleId= null);
+        IEnumerable<dynamic> SearchText(string searchQuery, string searchField = null, string titleId= null);
     }
 }
