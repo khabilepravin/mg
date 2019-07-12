@@ -138,7 +138,7 @@ namespace indexing
         private  dynamic _mapLuceneDocumentToData(Document doc)
         {
             var parsedText = _parsedTextRespository.GetParsedText(doc.Get("Id")).Result;
-            var userFavorite = _userFavoriteRepository.GetByParsedTextIdAsync(parsedText.Id);
+            var userFavorite = _userFavoriteRepository.GetByParsedTextIdAsync(parsedText.Id).Result;
 
             return new
             {
