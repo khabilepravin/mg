@@ -14,10 +14,21 @@ namespace dataModel.Repositories
         {
             using (var db = _dbContextFactory.Create())
             {
-                await db.UserFavorite.AddAsync(userFavorite);
-                await db.SaveChangesAsync();
+                var exitingUserRecord = await (from ur in db.UserFavorite
+                                               where ur.UserId == userFavorite.UserId && ur.ParsedTextId == userFavorite.ParsedTextId
+                                               select ur).FirstOrDefaultAsync<UserFavorite>();
 
-                return userFavorite;
+                if (exitingUserRecord == null)
+                {
+                    await db.UserFavorite.AddAsync(userFavorite);
+                    await db.SaveChangesAsync();
+
+                    return exitingUserRecord;
+                }
+                else
+                {
+                    return userFavorite;
+                }
             }
         }
 
