@@ -26,17 +26,17 @@ namespace dataModel
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             #region Comment this region-code for database migration and update
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
 
-                this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            }
+            //    this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //}
             #endregion
 
             #region Uncomment this region-code for database migration and update
             //Note: Put the connection string of your db
-            //optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
+            optionsBuilder.UseMySql("server=localhost;database=mg;user=root;password=p0k5PgOzmgkF");
             #endregion
         }
 
@@ -54,18 +54,21 @@ namespace dataModel
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaId).IsRequired();
+                entity.HasIndex(e => e.MediaId);
             });
 
             modelBuilder.Entity<MediaText>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaId).IsRequired();
+                entity.HasIndex(e => e.MediaId);
             });
 
             modelBuilder.Entity<ParsedText>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaTextId).IsRequired();
+                entity.HasIndex(e => e.MediaTextId);
             });
 
             modelBuilder.Entity<TagMaster>(entity =>
@@ -79,6 +82,8 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaId).IsRequired();
                 entity.Property(e => e.TagId).IsRequired();
+                entity.HasIndex(e => e.MediaId);
+                entity.HasIndex(e => e.TagId);
             });
 
             modelBuilder.Entity<TextTag>(entity =>
@@ -86,6 +91,8 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ParsedTextId).IsRequired();
                 entity.Property(e => e.TagId).IsRequired();
+                entity.HasIndex(e => e.ParsedTextId);
+                entity.HasIndex(e => e.TagId);
             });
 
             modelBuilder.Entity<UserCollection>(entity => 
@@ -93,6 +100,7 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired();
                 entity.Property(e => e.UserId).IsRequired();
+                entity.HasIndex(e => e.UserId);
             });
 
             modelBuilder.Entity<UserCollectionItem>(entity =>
@@ -100,6 +108,8 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.CollectionId).IsRequired();
                 entity.Property(e => e.EntityId).IsRequired();
+                entity.HasIndex(e => e.CollectionId);
+                entity.HasIndex(e => e.EntityId);
             });
 
             modelBuilder.Entity<ParsedTextArtist>(entity => 
@@ -107,6 +117,8 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MediaArtistId).IsRequired();
                 entity.Property(e => e.ParsedTextId).IsRequired();
+                entity.HasIndex(e => e.MediaArtistId);
+                entity.HasIndex(e => e.ParsedTextId);
             });
 
             modelBuilder.Entity<UserFavorite>(entity =>
@@ -114,6 +126,8 @@ namespace dataModel
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ParsedTextId).IsRequired();
                 entity.Property(e => e.UserId).IsRequired();
+                entity.HasIndex(e => e.ParsedTextId);
+                entity.HasIndex(e => e.UserId);
             });
         }
     }
