@@ -10,5 +10,6 @@ namespace dataModel.Repositories
         Task<ParsedText> GetParsedText(string id);
         Task<IEnumerable<ParsedText>> GetParsedTextByIds(IEnumerable<string> parsedTextIds);
         Task<IEnumerable<ParsedText>> GetFavoriteParsedTextByMediaId(string mediaId);
+        Task<IEnumerable<ParsedText>> GetTextBySerialNumber(IEnumerable<int> serialNumbers);
     }
 }

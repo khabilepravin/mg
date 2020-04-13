@@ -1,5 +1,6 @@
 ﻿using bl;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,14 @@ namespace server.Controllers
         public async Task<IActionResult> GetPopularTextByMediaId([FromRoute]string mediaId)
         {
             var result = await _textManager.GetPopularTextForMedia(mediaId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("{textId}")]
+        public async Task<IActionResult> GetTextSurroundingText([FromRoute]string textId, string proximity)
+        {
+            var result = await _textManager.GetSurroundingText(textId, (string.IsNullOrWhiteSpace(proximity) ? 6 : Convert.ToInt32(proximity)));
 
             return Ok(result);
         }

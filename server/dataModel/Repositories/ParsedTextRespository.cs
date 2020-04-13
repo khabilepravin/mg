@@ -61,5 +61,15 @@ namespace dataModel.Repositories
                               select parsedText).ToListAsync<ParsedText>();
             }
         }
+
+        public async Task<IEnumerable<ParsedText>> GetTextBySerialNumber(IEnumerable<int> serialNumbers)
+        {
+            using(var db = base._dbContextFactory.Create())
+            {
+                return await (from parsedText in db.ParsedText
+                 where serialNumbers.Contains(parsedText.SerialNumber)
+                 select parsedText).ToListAsync<ParsedText>();
+            }
+        }
     }
 }
